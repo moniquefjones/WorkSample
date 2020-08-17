@@ -12,4 +12,4 @@ Instructor Members Tab (Desktop)https://gyazo.com/f16cdc1366b2c8503ca82355a24aff
 
 Instructor Members Tab (Tablet) https://gyazo.com/354fe1a95954042b02a01e093fc78247
 
-Instructor Clients Tab (Mobile) https://gyazo.com/2b09a6525eb4317c2bb82bc84cb4516b
+Instructor Members Tab (Mobile) https://gyazo.com/2b09a6525eb4317c2bb82bc84cb4516b
