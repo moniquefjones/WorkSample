@@ -1,0 +1,104 @@
+@model FitMetrixWeb.ViewModels.Instructor.MembersTableViewModel
+
+<div class="instructor-table-container instructor-mobile-table scrollable-area">
+    <table class="responsive instructor-table responsive-card-table">
+        <thead class="gx-thead instructor-tablet-desktop-layout fm-sticky-header">
+            <tr class="column-header">
+                <th class="header-data first-column">MEMBER NAME</th>
+                <th class="header-data">EMAIL</th>
+                <th class="header-data">ID</th>
+                <th class="header-data">GENDER</th>
+                <th class="header-data">HR DEVICE ID</th>
+                <th class="header-data">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Members)
+            {
+            <tr>
+                <!-- Name Column-->
+                <td data-label="NAME" class="nowrap instructor-tablet-desktop-layout td-center-content first-column">
+                    <a href="/Location/MemberDetails/@item.ProfileID">
+                        <span class="class-title-data">
+                            <span class="lclcic-name hyperlink-1">
+                                @item.DisplayName
+                            </span>
+                        </span>
+                    </a>
+                    <div class="relative tablet-overflow-menu">
+                        <div class="overflow">
+                            <a class="overflow-menu btn overflow" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="overflow-menu-item"></div>
+                            </a>
+                            <div class="absolute">
+                                <div class="dropdown-menu absolute" aria-labelledby="dropdownMenuLink" id="dropdownMenu">
+                                    @if (ViewBag.ASSESSMENTPLATFORM)
+                                    {
+                                        <a class="dropdown-item" href="/Instructor/AddProfileInstructor?profileid=@item.ProfileID">Add as Client</a>
+                                    }
+                                    <a class="dropdown-item" href="/Location/MemberView/@item.ProfileID">Profile</a>
+                                    <a class="dropdown-item" href="/Location/MemberNotes/@item.ProfileID">Notes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <!-- Email Column-->
+                <td data-label="EMAIL" class="td-center-content instructor-tablet-desktop-layout td-center-data td-center-content">
+                    <span class="email-data">@item.Email</span>
+                </td>
+
+                <!-- ID Column-->
+                <td data-label="ID" class="td-center-content instructor-tablet-desktop-layout">
+                    @{
+                        if (!string.IsNullOrEmpty(item.ExternalID) && item.ExternalID.Length < 15)
+                        {
+                            <span>@item.ExternalID</span>
+                        }
+                        else
+                        {
+                            <span>@item.ProfileID</span>
+                        }
+                    }
+                </td>
+
+                <!-- Gender Column-->
+                <td data-label="GENDER" class="gender-data td-center-content location instructor-tablet-desktop-layout">
+                    <span>@item.Gender</span>
+                </td>
+
+                <!-- HR Monitor ID Column-->
+                <td data-label="HR DEVICE ID" class="td-center-content location instructor-tablet-desktop-layout">
+                    <span>@item.DeviceID</span>
+                </td>
+
+                <!-- Overflow Menu Column -->
+                <td data-label="ACTIONS" class="td-center-content location instructor-tablet-desktop-layout desktop-overflow-menu">
+                    <div class="desktop-overflow-menu relative overflow-menu-container">
+                        <div class="overflow">
+                            <a class="overflow-menu btn overflow dropdownMenuLink" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="overflow-menu-item"></div>
+                            </a>
+                            <div class="absolute drop-down-container">
+                                <div class="dropdown-menu absolute" aria-labelledby="dropdownMenuLink" id="dropdownMenu">
+                                    @if (ViewBag.ASSESSMENTPLATFORM)
+                                    {
+                                        <a class="dropdown-item" href="/Instructor/AddProfileInstructor?profileid=@item.ProfileID">Add as Client</a>
+                                    }
+                                    <a class="dropdown-item" href="/Location/MemberView/@item.ProfileID" target="_blank">Profile</a>
+                                    <a class="dropdown-item" href="/Location/MemberNotes/@item.ProfileID" target="_blank">Notes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="divMoreResults_@(Model.CurrentPage)" data-more-results="@(Model.MoreResults.ToString().ToLowerInvariant())" data-next-page="@Model.NextPage">
+</div>

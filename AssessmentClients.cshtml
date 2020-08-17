@@ -1,0 +1,444 @@
+﻿@model FitMetrixWeb.ViewModels.Instructor.AssessmentClientsViewModel
+@{
+    ViewBag.Title = System.Configuration.ConfigurationManager.AppSettings["WhiteLabelName"] + "  Members Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<link href='//fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' />
+<link rel="stylesheet" href="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/css/zebra/default.css" />
+<link rel="stylesheet" href="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/css/sweetalert2.css" />
+<link rel="stylesheet" href="~/StaticAssets/Styles/Dist/pages/FacilityAndLocationAdmin/facility_and_admin.css" />
+<link rel="stylesheet" href="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/css/groupx/gx-globals.css" />
+<link rel="stylesheet" href="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/css/groupx/buttons.css" />
+<link rel="stylesheet" href="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/css/groupx/mobile.css" />
+<link rel="stylesheet" href="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/css/groupx/overflow-menu.css" />
+<script src="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/js/jquery-stickyTableHeaders.js"></script>
+<script src="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/js/groupx/overflowMenu.js"></script>
+
+<style>
+
+    .groupx-extended-header {
+        border-bottom: 1px solid #CBD0D7;
+    }
+
+    .hyperlink-1 {
+        text-decoration: underline;
+    }
+
+    .td-center-content {
+        vertical-align: middle !important;
+    }
+
+    .email-data {
+        word-break: break-all;
+    }
+
+    .responsive-card-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .tp-button {
+        width: 14rem !important;
+    }
+
+    .lclcic-name {
+        margin-right: 2rem;
+    }
+
+    /* Customize top border depending on total columns */
+    .responsive-card-table td:nth-of-type(6n+1) {
+        border-top: 1px solid #CBD0D7 !important;
+    }
+
+    @@media screen and (min-width: 300px) {
+        .responsive-card-table td:after {
+            width: 35%;
+        }
+    }
+
+    /* Customize the left grey column width depending on the character length in the headers */
+    @@media screen and (min-width: 400px) {
+        .responsive-card-table td:after {
+            width: 30%;
+        }
+    }
+
+    @@media screen and (min-width: 700px) {
+        .responsive-card-table td:after {
+            width: 30%;
+        }
+    }
+
+    /* Mobile Styles */
+    @@media screen and (max-width: 736px) {
+        .groupx-extended-header {
+            border-top: 1px solid #CBD0D7;
+        }
+
+        .tabs {
+            box-shadow: none;
+            background: #F8F9FB;
+            padding: 0;
+        }
+
+        .tabs-title > a {
+            padding: 1.25rem 0;
+        }
+
+        #btnOpenMobileFilters {
+            float: none;
+            margin: 0 auto;
+        }
+    }
+
+    /* Tablet Styles */
+    @@media screen and (min-width: 737px) and (max-width: 787px) {
+        #adminNav {
+            top: 10rem !important;
+            min-height: calc(100vh - 10rem) !important;
+        }
+    }
+
+    /* Large Phone and Up */
+    @@media screen and (min-width: 737px) {
+        #fmapMembersContentWrap {
+            padding-top: 0;
+        }
+
+        .responsive-card-table td:after {
+            width: 22%;
+        }
+
+        .hide-table-helper {
+            height: 9.5rem;
+        }
+
+        .groupx-filter-container {
+            margin: 3rem 0 1rem 0;
+        }
+
+        .image-container {
+            display: inline-block;
+            margin: 0 2rem 0 0;
+        }
+
+        .tabs {
+            text-transform: none;
+            background: #FFFFFF;
+            padding: 0 4rem;
+        }
+
+        .tabs-title > a {
+            padding: 1.25rem 1.5rem;
+        }
+    }
+
+    /* Tablet and Up */
+    @@media screen and (min-width: 768px) {
+        .responsive-card-table td:after {
+            width: 20%;
+        }
+
+        .tabs {
+            margin-top: 2rem;
+        }
+    }
+
+    @@media screen and (min-width: 788px) {
+        #assInstructorMonthlyVisits, #assInstructorPopularTimes {
+            margin: 0 3vw;
+        }
+
+        #fmapMembersContentWrap, .validation-summary-success, .validation-summary-errors {
+            margin-top: 10rem;
+        }
+
+        .groupx-header {
+            top: 25rem;
+        }
+
+        .tabs {
+            margin-top: 4rem;
+        }
+    }
+
+    /* Desktop Styles */
+    @@media screen and (min-width: 800px) {
+        #clientNameLink {
+            display: inline-block;
+            margin: 1.5rem 0;
+        }
+
+        .responsive-card-table {
+            table-layout: auto;
+            width: 100%;
+        }
+
+        .header-data {
+            padding-right: 2rem;
+        }
+
+        .gender-data {
+            padding: 0 2rem !important;
+        }
+
+        .desktop-overflow-menu {
+            width: 7rem;
+            padding-left: 3rem;
+        }
+
+        .hide-table-helper {
+            height: 9.5rem;
+            top: 24rem;
+        }
+    }
+
+    @@media screen and (min-width: 1051px) {
+        #fmapMembersContentWrap, .validation-summary-success, .validation-summary-errors {
+            margin-top: 15rem;
+        }
+
+        .groupx-header {
+            top: 30rem;
+        }
+    }
+</style>
+@Html.Action("_AssessmentInstructorHeader")
+@Html.Partial("~/Views/Shared/_AssessmentNavPartial.cshtml", Model.IsPerformanceTrackingEnabled)
+<div class="fm-admin-portal fm-admin-settings fm-admin-member-page">
+
+    <div id="fmapMembersContentWrap" class="small-12 columns clrfix fm-admin-content">
+        <div class="hide-table-helper"></div>
+        <div class="groupx-extended-header">
+            <h2 class="groupx-header hide-for-small-only">
+                Clients and Members
+            </h2>
+            <ul class="tabs clients-tabs" data-tabs id="clients-filter-tabs">
+                <li class="tabs-title is-active" data-filter-kind="clients"><a href="#panel1" aria-selected="true">Your Clients</a></li>
+                <li class="tabs-title" data-filter-kind="members"><a data-tabs-target="panel2" href="#panel2">All Members</a></li>
+            </ul>
+        </div>
+        @Html.Raw(Model.Message)
+        <div class="mobile-header instructor-mobile-layout display-none">
+            <a id="btnOpenMobileFilters" onclick="toggleMobileFilters(true);" href="#" class="button-secondary mt-0x mb-1x pt-1x pb-1x pl-4x pr-4x">Filter</a>
+        </div>
+        @using (Html.BeginForm())
+        {
+            <input type="hidden" id="page" name="page" />
+            <div id="memberViewWrap">
+                <div id="memberViewBack"><i class="fa fa-arrow-left"></i>Back</div>
+                <div id="memberViewLoading"><img src="/images/loading.gif" alt="" /></div>
+                <iframe id="memberViewFrame" src="" scrolling="no" frameborder="0"></iframe>
+            </div>
+            @Html.AntiForgeryToken()
+            <div class="mobile-filter-header instructor-mobile-layout display-none">
+                <span class="pl-3x mobile-filter-text">Filter</span>
+                <a id="btnCloseMobileFilters" onclick="toggleMobileFilters(false);" href="#">&times;</a>
+                <hr />
+            </div>
+            <div id="caFilters" class="clearfix mt-sm-0">
+                <div class="groupx-filter-container">
+                    <div class="stretch instructor-mobile-layout">
+                        <a id="btnClearMobileFilters" onclick="clearMobileFilters();" href="#" class="button-tertiary display-none">Clear Filters</a>
+                    </div>
+                    <div class="columns">
+                        <div class="filter-label">Location</div>
+                        @Html.DropDownList("locationFilter", Model.FilterLocations, new { @class = "locationDrop inputFilter" })
+                    </div>
+                    <div class="columns">
+                        <div class="filter-label">First Name</div>
+                        @Html.TextBox("firstNameFilter", "", new { placeholder = "First Name", @class = "inputFilter" })
+                    </div>
+                    <div class="columns">
+                        <div class="filter-label">Last Name</div>
+                        @Html.TextBox("lastNameFilter", "", new { placeholder = "Last Name", @class = "inputFilter" })
+                    </div>
+                    <div class="columns">
+                        <div class="filter-label">Email Address</div>
+                        @Html.TextBox("emailFilter", "", new { placeholder = "Email Address", @class = "inputFilter" })
+                    </div>
+                    <div class="columns hide-for-small-only">
+                        <div class="filter-label">&nbsp;</div>
+                        <a id="instructorMemberFilterSubmit" href="#" onclick="loadTablePartial(1);" class="button-primary">Search</a>
+                    </div>
+                    <div class="columns show-for-small-only small-uncentered">
+                        <div class="filter-label">&nbsp;</div>
+                        <a id="instructorMembersMobiFilterSubmit" href="#" onclick="loadTablePartial(1);" class="button-secondary mb-2x">Search</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="locationClassesListWrap" class="clearfix">
+                <div class="lcl-inner-wrap">
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/js/jquery.waypoints.min.js"></script>
+<script src="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/js/infinite.js"></script>
+<script src="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/js/iframeResizer.min.js"></script>
+<script src="@System.Configuration.ConfigurationManager.AppSettings["cdnURL"]/js/sweetalert2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        loadTablePartial(1);
+    })
+
+    jQuery(document).ready(function ($) {
+        $.fn.enterKey = function (fnc) {
+            return this.each(function () {
+                $(this).keypress(function (ev) {
+                    var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+                    if (keycode == '13') {
+                        fnc.call(this, ev);
+                    }
+                })
+            })
+        }
+
+        $('.txt-input').enterKey(function () {
+            $('#searchButton').click();
+        });
+
+        $('.tabs').on('change.zf.tabs', function (ev, $tab, $content) {
+            var $container = $('.lcl-inner-wrap').empty();
+            loadTablePartial(1);
+        });
+    });
+
+    function offSetHeader() {
+        var $thOffset = $(window).width() > 1050 ? 385 : 335;
+        $('table').stickyTableHeaders({ fixedOffset: $thOffset });
+    };
+
+    $(window).resize(function () {
+        var w = $(window).width();
+        display(w);
+    });
+
+    function display(width) {
+
+        if (width > 0) {
+            $("td.desktop-overflow-menu").addClass("display-none");
+            $("div.tablet-overflow-menu").removeClass("display-none");
+        }
+
+        if (width < 737) {
+            $(".hide-for-small-only").addClass("display-none");
+            $("#caFilters").addClass("display-none");
+            $("#facHeader").addClass("display-none");
+            $(".mobile-filter-header").addClass("display-none");
+            $(".mobile-header").removeClass("display-none");
+            $("div #adminNav").addClass("display-none");
+            $("div #fmAdminHdrBot").addClass("display-none");
+        }
+
+        if (width >= 737) {
+            $(".hide-for-small-only").removeClass("display-none");
+            $("#caFilters").removeClass("display-none");
+            $(".mobile-header").addClass("display-none");
+            $(".mobile-filter-header").addClass("display-none");
+            $(".instructor-mobile-layout").addClass("display-none");
+            $("div #adminNav").removeClass("display-none");
+            $("div #fmAdminHdrBot").removeClass("display-none");
+            offSetHeader();
+        }
+
+        if (width < 788) {
+            $("#facHeader").addClass("display-none");
+        }
+
+        if (width >= 788) {
+            $("#facHeader").removeClass("display-none");
+            $("div.tablet-overflow-menu").addClass("display-none");
+            $("td.desktop-overflow-menu").removeClass("display-none");
+        }
+
+        Waypoint.refreshAll();
+    }
+
+    function toggleMobileFilters(isOpen) {
+        if (isOpen) {
+            $("#caFilters").removeClass("display-none");
+            $(".mobile-filter-header").removeClass("display-none");
+            $(".mobile-header").addClass("display-none");
+            $("#btnClearMobileFilters").removeClass("display-none");
+        } else {
+            $("#caFilters").addClass("display-none");
+            $(".mobile-filter-header").addClass("display-none");
+            $(".mobile-header").removeClass("display-none");
+            $("#btnClearMobileFilters").addClass("display-none");
+        }
+    }
+    
+    function clearMobileFilters() {
+        $("#locationFilter").val("");
+        $("#firstNameFilter, #lastNameFilter, #emailFilter").val("");
+    }
+
+    function loadTablePartial(page) {
+        var isClientsSearch = $("#clients-filter-tabs li.is-active").data("filter-kind") == "clients";
+        var locationFilterValue = $('#locationFilter').val();
+        var firstNameFilterValue = $('#firstNameFilter').val();
+        var lastNameFilterValue = $('#lastNameFilter').val();
+        var emailFilterValue = $('#emailFilter').val();
+        const pageSize = 25;
+        var $container = $('.lcl-inner-wrap');
+        if (page === 1) {
+            $container.empty();
+        }
+        $container.addClass('infinite-loading');
+        var tablePartial = isClientsSearch ? "ClientsTablePartial" : "MembersTablePartial";
+        var loc = "/Instructor/" + tablePartial + "?facilityLocationID=" + locationFilterValue + "&firstNameFilter=" + firstNameFilterValue +
+                "&lastNameFilter=" + lastNameFilterValue + "&emailFilter=" + emailFilterValue + "&page=" + page + "&pageSize=" + pageSize;
+        Waypoint.disableAll();
+        $.ajax({
+            url: loc,
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+        }).success(function (result) {
+            populateTable(page, result);
+            $('img').on("error", function () {
+                $(this).attr('src', '/images/av-uploader-placeholder.jpg');
+            });
+        }).error(function (xhr, status) {
+            console.error(status, "loading page", page);
+        })
+    }
+
+    function populateTable(page, result) {
+        var $container = $('.lcl-inner-wrap');
+        var $table = $container.find('table');
+        var $newPartial = $('<div />').html(result);
+        var moreResultsSelector = "#divMoreResults_" + page;
+
+        if ($table[0]) {
+            $table.append($newPartial.find("tbody").children());
+        } else {
+            $container.append($newPartial.find('table'));
+        }
+        $container.append($newPartial.find(moreResultsSelector));
+
+        var element = $(moreResultsSelector)[0];
+        @* Wire up waypoint to load next page. *@
+        var waypoint = new Waypoint({
+            element: element,
+            handler: function (direction) {
+                var $moreResultsDiv = $(moreResultsSelector);
+                if ($moreResultsDiv.data("more-results") === true && direction === "down") {
+                    Waypoint.disableAll(); // disable existing waypoints b/c they've been used already.
+                    loadTablePartial($moreResultsDiv.data("next-page"));
+                }
+            },
+            offset: '105%'
+        });
+
+        $container.removeClass('infinite-loading');
+        var w = $(window).width();
+        display(w);
+    }
+
+</script>
